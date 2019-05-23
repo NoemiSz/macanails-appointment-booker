@@ -29,7 +29,7 @@ class FormTest {
 
     @Test
     public void createForm() {
-        Map<String, Object> answers = new HashMap();
+        Map<String, List<String>> answers = new HashMap();
         List<String> list = new ArrayList(){
             {
                 add("a");
@@ -43,4 +43,19 @@ class FormTest {
         assertThat(form).isNotNull();
     }
 
+    @Test
+    public void createFromWithEnums() {
+        Map<String, List<String>> answers = new HashMap();
+        List<String> list = new ArrayList(){
+            {
+                add("a");
+                add("e");
+                add("g");
+            }
+        };
+        answers.put("answers",list);
+        formService = new FormService();
+        form = formService.createForm(answers);
+        assertEquals(Type.FILLING, form.getType());
+    }
 }
