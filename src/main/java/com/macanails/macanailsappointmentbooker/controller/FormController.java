@@ -1,25 +1,28 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.macanails.macanailsappointmentbooker.service.FormService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
 public class FormController {
+    @Autowired
+    FormService formService;
 
     @PostMapping(value = "/")
-    public List<String> reactSg(@RequestParam(value = "answers") List<String> choosenOptions) {
+    public Map<String, List<String>> getParameters(@RequestBody Map<String, List<String>> answers) {
 
-        List<String> back = new ArrayList<>(Arrays.asList("Geeks",
-                "for",
-                "Geeks"));
-        return back;
+        return answers;
+    }
+
+    @PostMapping(value = "/personal")
+    public Map<String, List<String>> getPersonal(@RequestBody Map<String, List<String>> personal) {
+
+        return personal;
     }
 }
