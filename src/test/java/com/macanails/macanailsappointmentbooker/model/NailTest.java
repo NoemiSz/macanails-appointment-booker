@@ -33,7 +33,7 @@ class NailTest {
         answers.put("decoration", "YES");
 
         nailService = new NailService();
-        nail = nailService.createForm(answers);
+        nail = nailService.createNail(answers);
         assertThat(nail).isNotNull();
     }
 
@@ -45,7 +45,7 @@ class NailTest {
         answers.put("decoration", "YES");
 
         nailService = new NailService();
-        nail = nailService.createForm(answers);
+        nail = nailService.createNail(answers);
         assertEquals(Type.FILLING, nail.getType());
     }
 }
