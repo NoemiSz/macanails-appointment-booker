@@ -66,21 +66,10 @@ public class CalendarService {
         event.setEnd(end);
 
 
-        EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail("macanailstest@gmail.com"),
-                new EventAttendee().setEmail("szajler.indira@gmail.com"),
-        };
-        event.setAttendees(Arrays.asList(attendees));
+        addAttendees(event, "szajler.indira@gmail.com");
 
 
-        EventReminder[] reminderOverrides = new EventReminder[] {
-                new EventReminder().setMethod("email").setMinutes(24 * 60),
-
-        };
-        Event.Reminders reminders = new Event.Reminders()
-                .setUseDefault(false)
-                .setOverrides(Arrays.asList(reminderOverrides));
-        event.setReminders(reminders);
+        addReminders(event);
 
         String calendarId = "primary";
         event = calendarConnection.service.events().insert(calendarId, event).execute();
@@ -91,27 +80,18 @@ public class CalendarService {
     public void updateEvent(CalendarEvent calendarEvent, String neededHours) throws IOException {
         Event event = calendarConnection.service.events().get("primary", calendarEvent.getId()).execute();
 
-
-        String endTime = calendarEvent.getEndTime().toString()+neededHours;
-        DateTime endDateTime = new DateTime(endTime);
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("Europe/Budapest");
-
-
+        modifyEndTime(event,calendarEvent, neededHours);
+        addAttendees(event, calendarEvent.getCustomer().getEmail());
+        addReminders(event);
         event.setDescription(calendarEvent.getDescription())
                 .setLocation("Szalon")
-                .setDescription(calendarEvent.getDescription())
-                .setEnd(end);
+                .setGuestsCanModify(false);
 
-        EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail("macanailstest@gmail.com"),
-                new EventAttendee().setEmail(calendarEvent.getCustomer().getEmail()),
-        };
-        event.setAttendees(Arrays.asList(attendees));
+        calendarConnection.service.events().update("primary", event.getId(), event).execute();
+    }
 
-
-        EventReminder[] reminderOverrides = new EventReminder[] {
+    private void addReminders(Event event) {
+        EventReminder[] reminderOverrides = new EventReminder[]{
                 new EventReminder().setMethod("email").setMinutes(24 * 60),
 
         };
@@ -119,10 +99,24 @@ public class CalendarService {
                 .setUseDefault(false)
                 .setOverrides(Arrays.asList(reminderOverrides));
         event.setReminders(reminders);
+    }
 
-        event.setGuestsCanModify(false);
+    private void addAttendees(Event event, String email) {
+        EventAttendee[] attendees = new EventAttendee[]{
+                new EventAttendee().setEmail("macanailstest@gmail.com"),
+                new EventAttendee().setEmail(email),
+        };
+        event.setAttendees(Arrays.asList(attendees));
+    }
 
-        calendarConnection.service.events().update("primary", event.getId(), event).execute();
+    private void modifyEndTime(Event event, CalendarEvent calendarEvent, String neededHours) {
+        String endTimeString = calendarEvent.getEndTime().toString()+neededHours;
+        DateTime endDateTime = new DateTime(endTimeString);
+        EventDateTime eventEndTime= new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone("Europe/Budapest");
+        event.setEnd(eventEndTime);
+
     }
 
 }
