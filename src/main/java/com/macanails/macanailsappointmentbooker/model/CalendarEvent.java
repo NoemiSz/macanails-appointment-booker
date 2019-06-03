@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,13 +16,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class CalendarEvent {
     private String id;
-    private DateTime startTime;
-    private DateTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private Customer customer;
     private Nail nail;
     private String description;
 
-    public CalendarEvent(DateTime startTime, DateTime endTime, String id) {
+    public CalendarEvent(LocalDateTime startTime, LocalDateTime endTime, String id) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.id = id;
