@@ -23,15 +23,30 @@ public class CalendarService {
     @Autowired
     CalendarEvent calendarEvent;
 
+    @Autowired
+    ReservationService reservationService;
+
     @PostConstruct
     public void test() throws IOException {
-        DateTime time = new DateTime(System.currentTimeMillis());
-        LocalDateTime now = DateTimeService.convertDateTimeToLocalDateTime(time).withSecond(0).withNano(0);
-        DateTime max=DateTimeService.convertLocalDateTimeToDateTime(calculateDateTime(3, now));
+        CalendarEvent eventt= new CalendarEvent();
+        eventt.setNeededTime(2);
+               eventt .setStartTime(LocalDateTime.of(2019, 6, 4, 10, 0));
+               eventt.setDescription("test");
+               eventt.setId(getFreeEvents(DateTimeService.convertLocalDateTimeToDateTime(eventt.getStartTime()),
+                       DateTimeService.convertLocalDateTimeToDateTime(eventt.getStartTime().plusHours(eventt.getNeededTime()))).get(0).getId());
 
-        LocalDateTime date = calculateDateTime(2, LocalDateTime.now().withNano(0).withSecond(0));
 
-        updateEvent(getFreeEvents(DateTimeService.convertLocalDateTimeToDateTime(now), DateTimeService.convertLocalDateTimeToDateTime(date)).get(0), 1);
+        System.out.println(eventt.toString());
+
+        System.out.println(reservationService.saveAppointment(eventt));
+
+//        DateTime time = new DateTime(System.currentTimeMillis());
+//        LocalDateTime now = DateTimeService.convertDateTimeToLocalDateTime(time).withSecond(0).withNano(0);
+//
+//        LocalDateTime date = calculateDateTime(2, LocalDateTime.now().withNano(0).withSecond(0));
+//        List<CalendarEvent> freeEvents =getFreeEvents(DateTimeService.convertLocalDateTimeToDateTime(now), DateTimeService.convertLocalDateTimeToDateTime(date));
+//        updateEvent(freeEvents.get(0), 1);
+//        deleteEvent(freeEvents.get(1));
     }
 
     public List<CalendarEvent> getFreeEvents(DateTime min, DateTime max) throws IOException {
@@ -106,6 +121,10 @@ public class CalendarService {
         calendarConnection.service.events().update("primary", event.getId(), event).execute();
     }
 
+    public void deleteEvent(CalendarEvent calendarEvent) throws IOException {
+        calendarConnection.service.events().delete("primary", calendarEvent.getId()).execute();
+    }
+
     private void addReminders(Event event) {
         EventReminder[] reminderOverrides = new EventReminder[]{
                 new EventReminder().setMethod("email").setMinutes(24 * 60),
@@ -127,7 +146,9 @@ public class CalendarService {
     }
 
     private void modifyEndTime(Event event, CalendarEvent calendarEvent, int neededHours) {
-        DateTime endDateTime = DateTimeService.convertLocalDateTimeToDateTime(calculateDateTime(neededHours, calendarEvent.getEndTime()));
+        calendarEvent.setEndTime(calendarEvent.getStartTime().plusHours(neededHours));
+
+        DateTime endDateTime = DateTimeService.convertLocalDateTimeToDateTime(calendarEvent.getEndTime());
         EventDateTime eventEndTime= new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("Europe/Budapest");

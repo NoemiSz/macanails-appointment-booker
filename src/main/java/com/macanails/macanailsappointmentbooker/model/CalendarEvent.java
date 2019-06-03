@@ -21,6 +21,7 @@ public class CalendarEvent {
     private Customer customer;
     private Nail nail;
     private String description;
+    private int neededTime;
 
     public CalendarEvent(LocalDateTime startTime, LocalDateTime endTime, String id) {
         this.startTime = startTime;
