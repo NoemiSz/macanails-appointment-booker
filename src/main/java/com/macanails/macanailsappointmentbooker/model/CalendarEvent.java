@@ -29,6 +29,11 @@ public class CalendarEvent {
         this.id = id;
     }
 
+    public void setDescription(Nail nail, Customer customer) {
+        StringBuilder description = new StringBuilder();
+        description.append(nail.toString()).append(customer.toString());
+        this.description = description.toString();
+    }
 
     @Override
     public String toString() {
