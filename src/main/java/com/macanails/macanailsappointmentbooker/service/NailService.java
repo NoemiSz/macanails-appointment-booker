@@ -17,4 +17,9 @@ public class NailService {
         nail = new Nail(answers);
         return nail;
     }
+
+    public int calculateNeededTime(Nail nail){
+       //TODO
+        return 3;
+    }
 }
