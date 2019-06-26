@@ -33,7 +33,9 @@ public class ReservationService {
         List<CalendarEvent> freeEvents = calendarService.getFreeEvents(DateTimeService.convertLocalDateTimeToDateTime(now), threeMothLater);
         List<CalendarEvent> suitableEvents = new ArrayList<>();
         for (int i = 0; i < freeEvents.size()-neededHours; i++) {
-            if(freeEvents.get(i+neededHours).getEndTime() == freeEvents.get(i).getStartTime().plusHours(neededHours)){
+            System.out.println(freeEvents.get(i+neededHours).getStartTime());
+            System.out.println(freeEvents.get(i).getStartTime().plusHours(neededHours));
+            if(freeEvents.get(i+neededHours).getStartTime().equals(freeEvents.get(i).getStartTime().plusHours(neededHours))){
                 freeEvents.get(i).setNail(nail);
                 suitableEvents.add(freeEvents.get(i));
             }

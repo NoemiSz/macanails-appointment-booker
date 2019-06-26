@@ -1,8 +1,7 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
 
-import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
-import com.macanails.macanailsappointmentbooker.model.Nail;
+import com.macanails.macanailsappointmentbooker.model.*;
 import com.macanails.macanailsappointmentbooker.service.CalendarService;
 import com.macanails.macanailsappointmentbooker.service.NailService;
 import com.macanails.macanailsappointmentbooker.service.ReservationService;
@@ -19,17 +18,22 @@ import java.util.Map;
 public class NailController {
     @Autowired
     NailService nailService;
-    @Autowired
-    Nail nail;
+//    @Autowired
+//    Nail nail;
     @Autowired
     ReservationService reservationService;
 
     @Autowired
     CalendarService calendarService;
 
-    @GetMapping(value = "/")
+    @PostMapping(value = "/")
     public Map<String, List<CalendarEvent>> getFreeSlots(@RequestBody Map<String, String> answers) throws IOException {
-        nail = nailService.createNail(answers);
+        System.out.println(answers);
+       Nail nail= Nail.builder()
+                .decor(Decoration.valueOf(answers.get("decoration")))
+                .shape(Shape.valueOf(answers.get("shape")))
+                .type(Type.valueOf(answers.get("nailType")))
+               .build();
 
         List<CalendarEvent> freeSlots = reservationService.getFreeSlots(nail);
         Map <String, List<CalendarEvent>> freeSlotsMap = new HashMap<String, List<CalendarEvent>>();

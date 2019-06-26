@@ -17,7 +17,7 @@ public class EventController {
         @Autowired
         ReservationService reservationService;
 
-        @PostMapping(value = "/")
+        @PostMapping(value = "/#personal")
         public void saveEvent(@RequestBody Map<String, String> answers) throws IOException {
 
         //TODO
