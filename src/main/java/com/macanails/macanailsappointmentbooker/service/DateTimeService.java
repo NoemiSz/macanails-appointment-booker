@@ -14,7 +14,7 @@ public class DateTimeService {
 
     public static DateTime convertLocalDateTimeToDateTime(LocalDateTime localDateTime){
         StringBuilder sb = new StringBuilder();
-        sb.append(localDateTime).append(":00.000+02:00");
+        sb.append(localDateTime).append(".000+02:00");
         return new DateTime(sb.toString());
 
     }
