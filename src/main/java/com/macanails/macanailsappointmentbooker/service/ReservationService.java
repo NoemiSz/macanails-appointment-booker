@@ -23,30 +23,27 @@ public class ReservationService {
     NailService nailService;
 
     public List<CalendarEvent> getFreeSlots(Nail nail) throws IOException {
-        int neededHours= nailService.calculateNeededTime(nail);
-        System.out.println(new DateTime(System.currentTimeMillis()));
+        int neededHours = nailService.calculateNeededTime(nail);
         LocalDateTime now = LocalDateTime.now().withNano(0);
-        LocalDateTime three = now.plusMonths(3);
+        DateTime threeMothLater = DateTimeService.convertLocalDateTimeToDateTime(now.plusMonths(3));
 
-        DateTime threeMothLater = DateTimeService.convertLocalDateTimeToDateTime(three);
-        System.out.println(threeMothLater);
         List<CalendarEvent> freeEvents = calendarService.getFreeEvents(DateTimeService.convertLocalDateTimeToDateTime(now), threeMothLater);
         List<CalendarEvent> suitableEvents = new ArrayList<>();
-        for (int i = 0; i < freeEvents.size()-neededHours; i++) {
-            System.out.println(freeEvents.get(i+neededHours).getStartTime());
-            System.out.println(freeEvents.get(i).getStartTime().plusHours(neededHours));
-            if(freeEvents.get(i+neededHours).getStartTime().equals(freeEvents.get(i).getStartTime().plusHours(neededHours))){
+        for (int i = 0; i < freeEvents.size() - neededHours; i++) {
+            if (freeEvents.get(i + neededHours).getStartTime().equals(freeEvents.get(i).getStartTime().plusHours(neededHours))) {
                 freeEvents.get(i).setNail(nail);
                 suitableEvents.add(freeEvents.get(i));
+                freeEvents.get(i).setNail(nail);
+                freeEvents.get(i).setNeededTime(nailService.calculateNeededTime(nail));
             }
-
-        }       return suitableEvents;
+        }
+        return suitableEvents;
     }
 
-    public String  saveAppointment(CalendarEvent calendarEvent) throws IOException {
+    public String saveAppointment(CalendarEvent calendarEvent) throws IOException {
 
 
-        LocalDateTime startTime =calendarEvent.getStartTime();
+        LocalDateTime startTime = calendarEvent.getStartTime();
         LocalDateTime endTime = calendarEvent.getStartTime().plusHours(calendarEvent.getNeededTime());
         List<CalendarEvent> freeSlots = calendarService.getFreeEvents(DateTimeService.convertLocalDateTimeToDateTime(startTime),
                 DateTimeService.convertLocalDateTimeToDateTime(endTime));
