@@ -36,16 +36,4 @@ class NailTest {
         nail = nailService.createNail(answers);
         assertThat(nail).isNotNull();
     }
-
-    @Test
-    public void createNailWithEnums() {
-        Map<String, String> answers = new HashMap();
-        answers.put("shape", "ROUND");
-        answers.put("type", "FILLING");
-        answers.put("decoration", "YES");
-
-        nailService = new NailService();
-        nail = nailService.createNail(answers);
-        assertEquals(Type.FILLING, nail.getType());
-    }
 }
