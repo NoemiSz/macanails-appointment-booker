@@ -38,6 +38,7 @@ public class CalendarService {
                 CalendarEvent calendarEvent = CalendarEvent.builder()
                         .startTime(DateTimeService.convertDateTimeToLocalDateTime(event.getStart().getDateTime()))
                         .endTime(DateTimeService.convertDateTimeToLocalDateTime(event.getEnd().getDateTime()))
+                        .startHour(DateTimeService.convertLocalDateTimeToTimeString(DateTimeService.convertDateTimeToLocalDateTime(event.getStart().getDateTime())))
                         .id(event.getId())
                         .build();
                 items.add(calendarEvent);
