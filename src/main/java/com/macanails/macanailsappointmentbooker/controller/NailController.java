@@ -24,11 +24,10 @@ public class NailController {
 
     @PostMapping(value = "/")
     public Map<String, List<CalendarEvent>> getFreeSlots(@RequestBody Map<String, String> answers) throws IOException {
-        System.out.println(answers);
+        String nailStyle = answers.get("nailStyle").replaceAll(" ", "_" ).toUpperCase();
         Nail nail = Nail.builder()
-                .decor(Decoration.valueOf(answers.get("decoration")))
-                .shape(Shape.valueOf(answers.get("shape")))
-                .type(Type.valueOf(answers.get("nailType")))
+//                .decor(Decoration.valueOf(answers.get("decoration")))
+                .type(NailOption.valueOf(nailStyle))
                 .build();
 
         List<CalendarEvent> freeSlots = reservationService.getFreeSlots(nail);
