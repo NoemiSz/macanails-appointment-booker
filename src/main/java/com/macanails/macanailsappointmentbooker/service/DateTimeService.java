@@ -1,6 +1,7 @@
 package com.macanails.macanailsappointmentbooker.service;
 
 import com.google.api.client.util.DateTime;
+import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,4 +19,14 @@ public class DateTimeService {
         return new DateTime(sb.toString());
 
     }
- }
+    public static String convertLocalDateTimeToDateString(CalendarEvent freeSlot) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return freeSlot.getStartTime().format(formatter);
+    }
+
+    public static String convertLocalDateTimeToTimeString(LocalDateTime startTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return startTime.format(formatter);
+
+    }
+}
