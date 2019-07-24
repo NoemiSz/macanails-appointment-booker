@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalendarEventWrapper {
+public class PersonalInfoFormWrapper {
     private CalendarEvent selectedSlot;
     private String name;
     private String mail;

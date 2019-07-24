@@ -1,6 +1,6 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
-import com.macanails.macanailsappointmentbooker.model.BookingFormAnswerWrapper;
+import com.macanails.macanailsappointmentbooker.model.PersonalInfoFormWrapper;
 import com.macanails.macanailsappointmentbooker.model.Customer;
 import com.macanails.macanailsappointmentbooker.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class EventController {
         ReservationService reservationService;
 
         @PostMapping(value = "/personal")
-        public Map<String, Object> saveEvent(@RequestBody BookingFormAnswerWrapper answers) throws IOException {
+        public Map<String, Object> saveEvent(@RequestBody PersonalInfoFormWrapper answers) throws IOException {
 
             customer.setEmail(answers.getMail());
             customer.setName(answers.getName());
