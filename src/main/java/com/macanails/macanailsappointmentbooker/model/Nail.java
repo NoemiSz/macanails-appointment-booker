@@ -6,31 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Component
 public class Nail {
-    private Decoration  decor;
-    private Length  length;
-    private Shape  shape;
-    private Type type;
+    private NailDecoration decor;
+    private NailType type;
 
-    public Nail(){}
+    public void setDecorEnum(String decor) {
+        this.decor = NailDecoration.valueOf(decor);
+    }
 
-    public Nail(Map<String, String> answers){
-        String dec = answers.get("decoration");
-        this.decor =Decoration.valueOf(dec);
-        String sh = answers.get("shape");
-        this.shape = Shape.valueOf(sh);
-        String ty = answers.get("type");
-        this.type = Type.valueOf(ty);
+    public void setTypeEnum(String type) {
+        this.type = NailType.valueOf(type);
+    }
 
+    @Override
+    public String toString() {
+        return getType().getDescription()+"\n"
+                +getDecor().getDescription();
     }
 
 }

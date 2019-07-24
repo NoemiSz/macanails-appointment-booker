@@ -1,29 +1,36 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
-import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
-import com.macanails.macanailsappointmentbooker.model.Nail;
-import com.macanails.macanailsappointmentbooker.service.CalendarService;
-import com.macanails.macanailsappointmentbooker.service.NailService;
+import com.macanails.macanailsappointmentbooker.model.PersonalInfoFormWrapper;
+import com.macanails.macanailsappointmentbooker.model.Customer;
 import com.macanails.macanailsappointmentbooker.service.ReservationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
 @CrossOrigin
+@Slf4j
 public class EventController {
+        @Autowired
+        Customer customer;
 
         @Autowired
-        CalendarService calendarService;
+        ReservationService reservationService;
 
-        @PostMapping(value = "/")
-        public void saveEvent(@RequestBody Map<String, String> answers) {
+        @PostMapping(value = "/personal")
+        public Map<String, Object> saveEvent(@RequestBody PersonalInfoFormWrapper answers) throws IOException {
 
-        //TODO
-            calendarService.saveEvent();
+            customer.setEmail(answers.getMail());
+            customer.setName(answers.getName());
+            customer.setPhone(answers.getPhone());
+            answers.getSelectedSlot().setCustomer(customer);
+            answers.getSelectedSlot().setDescription();
+            log.info(answers.getSelectedSlot().toString());
+            return reservationService.saveAppointment(answers.getSelectedSlot());
+
         }
 
     }
