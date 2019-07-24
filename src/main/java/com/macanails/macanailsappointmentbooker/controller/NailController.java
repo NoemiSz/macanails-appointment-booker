@@ -3,7 +3,6 @@ package com.macanails.macanailsappointmentbooker.controller;
 
 import com.macanails.macanailsappointmentbooker.model.*;
 import com.macanails.macanailsappointmentbooker.service.CalendarService;
-import com.macanails.macanailsappointmentbooker.service.DateTimeService;
 import com.macanails.macanailsappointmentbooker.service.NailService;
 import com.macanails.macanailsappointmentbooker.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +29,7 @@ public class NailController {
                 .type(NailOption.valueOf(nailStyle))
                 .build();
 
-        List<CalendarEvent> freeSlots = reservationService.getFreeSlots(nail);
-        Map<String, List<CalendarEvent>> freeSlotsMap = new HashMap<String, List<CalendarEvent>>();
-        List<CalendarEvent> events;
-
-        for (CalendarEvent freeSlot : freeSlots) {
-            String dateMapKey = DateTimeService.convertLocalDateTimeToDateString(freeSlot);
-            events = freeSlotsMap.computeIfAbsent(dateMapKey, k -> new ArrayList<>());
-            events.add(freeSlot);
-        }
-
-        return freeSlotsMap;
+        return reservationService.getFreeSlotsMap(nail);
     }
 
-
-//    @PostMapping(value = "/personal")
-//    public Map<String, String> getPersonal(@RequestBody Map<String, String> personal) {
-//
-//        return personal;
-//    }
 }
