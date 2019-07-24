@@ -26,8 +26,8 @@ public class NailController {
         String nailStyle = answers.get("nailStyle").replaceAll(" ", "_" ).toUpperCase();
         String decoration = answers.get("decoration").replaceAll(" ", "_" ).toUpperCase();
         Nail nail = Nail.builder()
-                .type(NailOption.valueOf(nailStyle))
-                .decor(Decoration.valueOf(decoration))
+                .type(NailType.valueOf(nailStyle))
+                .decor(NailDecoration.valueOf(decoration))
                 .build();
 
         return reservationService.getFreeSlotsMap(nail);

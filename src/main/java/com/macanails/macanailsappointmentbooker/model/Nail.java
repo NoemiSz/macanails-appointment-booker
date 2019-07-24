@@ -13,23 +13,23 @@ import java.util.Map;
 @Builder
 @Component
 public class Nail {
-    private Decoration  decor;
-    private NailOption type;
+    private NailDecoration decor;
+    private NailType type;
 
     public Nail(){}
 
     public Nail(Map<String, String> answers){
         String dec = answers.get("decoration");
-        this.decor =Decoration.valueOf(dec);
+        this.decor = NailDecoration.valueOf(dec);
         String ty = answers.get("type");
-        this.type = NailOption.valueOf(ty);
+        this.type = NailType.valueOf(ty);
 
     }
 
     @Override
     public String toString() {
-        return getType().toString()+"\n"
-                +getDecor().toString();
+        return getType().getDescription()+"\n"
+                +getDecor().getDescription();
     }
 
 }

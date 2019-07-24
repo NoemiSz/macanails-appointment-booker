@@ -1,6 +1,6 @@
 package com.macanails.macanailsappointmentbooker.model;
 
-public enum NailOption {
+public enum NailType {
     GÉLLAKK("Natúr körömre géllakk", 0.5f),
     GÉLLAKK_MEGERŐSÍTÉSSEL("Natúr körömre géllakk megerősítéssel", 0.75f),
     MŰKÖRÖM_S_MÉRET("Natúr körömre S műköröm", 1.33f),
@@ -22,7 +22,7 @@ public enum NailOption {
     private final String description;
     private final float time;
 
-    NailOption(String description, float time) {
+    NailType(String description, float time) {
 
         this.description = description;
         this.time = time;
@@ -30,5 +30,9 @@ public enum NailOption {
 
     public float getTime() {
         return time;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

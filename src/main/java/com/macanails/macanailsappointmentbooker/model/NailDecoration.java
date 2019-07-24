@@ -1,6 +1,6 @@
 package com.macanails.macanailsappointmentbooker.model;
 
-public enum Decoration {
+public enum NailDecoration {
     TRANSFERFÓLIA_VAGY_CUKORPOR("Transzferfólia vagy cukorpor", 0.084f),
     EFFEKT_POROK("Effekt porok", 0.17f),
     INDA_MINTA("Inda minta", 0.17f),
@@ -13,12 +13,16 @@ public enum Decoration {
     private final String description;
     private final float time;
 
-    Decoration(String description, float time) {
+    NailDecoration(String description, float time) {
         this.description = description;
         this.time = time;
     }
 
     public float getTime() {
         return this.time;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
