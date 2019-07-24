@@ -19,8 +19,8 @@ public class Nail {
     public Nail(){}
 
     public Nail(Map<String, String> answers){
-//        String dec = answers.get("decoration");
-//        this.decor =Decoration.valueOf(dec);
+        String dec = answers.get("decoration");
+        this.decor =Decoration.valueOf(dec);
         String ty = answers.get("type");
         this.type = NailOption.valueOf(ty);
 
