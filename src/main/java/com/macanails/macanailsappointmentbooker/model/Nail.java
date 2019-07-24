@@ -13,7 +13,7 @@ import java.util.Map;
 @Builder
 @Component
 public class Nail {
-    private Decoration  decor;
+    private Decoration  decor = Decoration.YES;
     private NailOption type;
 
     public Nail(){}
@@ -24,6 +24,12 @@ public class Nail {
         String ty = answers.get("type");
         this.type = NailOption.valueOf(ty);
 
+    }
+
+    @Override
+    public String toString() {
+        return getType().toString()+"\n"
+                +getDecor().toString();
     }
 
 }

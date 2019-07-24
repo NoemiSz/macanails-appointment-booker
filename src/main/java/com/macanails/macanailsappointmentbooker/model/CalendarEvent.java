@@ -22,18 +22,7 @@ public class CalendarEvent {
     private String description;
     private int neededTime;
 
-    public void setDescription(Nail nail, Customer customer) {
-        StringBuilder description = new StringBuilder();
-        description.append(nail.toString()).append(customer.toString());
-        this.description = description.toString();
-    }
-
-    @Override
-    public String toString() {
-        return "CalendarEvent{" +
-                "id='" + id + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                '}';
+    public void setDescription() {
+        this.description = nail.toString() +"\n"+ customer.toString();
     }
 }

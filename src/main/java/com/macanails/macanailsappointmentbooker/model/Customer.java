@@ -13,5 +13,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Customer {
     private String email;
+    private String name;
+    private String phone;
+ @Override
+    public String toString(){
+     return name+"\n"+
+     phone+"\n"+
+     email;
+ }
 
 }
