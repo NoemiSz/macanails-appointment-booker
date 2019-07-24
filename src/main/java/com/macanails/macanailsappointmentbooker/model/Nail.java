@@ -13,7 +13,7 @@ import java.util.Map;
 @Builder
 @Component
 public class Nail {
-    private Decoration  decor = Decoration.YES;
+    private Decoration  decor;
     private NailOption type;
 
     public Nail(){}

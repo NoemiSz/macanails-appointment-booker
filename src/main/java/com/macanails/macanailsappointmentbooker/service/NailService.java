@@ -17,9 +17,9 @@ public class NailService {
     }
 
     public int calculateNeededTime(Nail nail){
-        float needidTime = 0f;
-        needidTime+=nail.getDecor().getTime();
-        needidTime+=nail.getType().getTime();
-        return (int) Math.ceil(needidTime);
+        float neededTime = 0f;
+        neededTime+=nail.getDecor().getTime();
+        neededTime+=nail.getType().getTime();
+        return (int) Math.ceil(neededTime);
     }
 }
