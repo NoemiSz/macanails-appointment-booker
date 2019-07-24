@@ -3,27 +3,24 @@ package com.macanails.macanailsappointmentbooker.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Component
 public class Nail {
     private NailDecoration decor;
     private NailType type;
 
-    public Nail(){}
+    public void setDecorEnum(String decor) {
+        this.decor = NailDecoration.valueOf(decor);
+    }
 
-    public Nail(Map<String, String> answers){
-        String dec = answers.get("decoration");
-        this.decor = NailDecoration.valueOf(dec);
-        String ty = answers.get("type");
-        this.type = NailType.valueOf(ty);
-
+    public void setTypeEnum(String type) {
+        this.type = NailType.valueOf(type);
     }
 
     @Override

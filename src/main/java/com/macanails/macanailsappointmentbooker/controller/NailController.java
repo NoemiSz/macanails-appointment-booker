@@ -1,6 +1,5 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
-
 import com.macanails.macanailsappointmentbooker.model.*;
 import com.macanails.macanailsappointmentbooker.service.CalendarService;
 import com.macanails.macanailsappointmentbooker.service.NailService;
@@ -20,16 +19,14 @@ public class NailController {
     ReservationService reservationService;
     @Autowired
     CalendarService calendarService;
+    @Autowired
+    Nail nail;
 
     @PostMapping(value = "/")
-    public Map<String, List<CalendarEvent>> getFreeSlots(@RequestBody Map<String, String> answers) throws IOException {
-        String nailStyle = answers.get("nailStyle").replaceAll(" ", "_" ).toUpperCase();
-        String decoration = answers.get("decoration").replaceAll(" ", "_" ).toUpperCase();
-        Nail nail = Nail.builder()
-                .type(NailType.valueOf(nailStyle))
-                .decor(NailDecoration.valueOf(decoration))
-                .build();
+    public Map<String, List<CalendarEvent>> getFreeSlots(@RequestBody NailFormWrapper answers) throws IOException {
 
+        nail.setDecorEnum(answers.getDecorationUpperCase());
+        nail.setTypeEnum(answers.getNailStyleUpperCase());
         return reservationService.getFreeSlotsMap(nail);
     }
 
