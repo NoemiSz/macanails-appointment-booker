@@ -1,8 +1,5 @@
 package com.macanails.macanailsappointmentbooker.model;
 
-import lombok.Data;
-
-
 public enum NailOption {
     GÉLLAKK("Natúr körömre géllakk", 0.5f),
     GÉLLAKK_MEGERŐSÍTÉSSEL("Natúr körömre géllakk megerősítéssel", 0.75f),
