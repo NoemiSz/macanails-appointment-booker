@@ -13,7 +13,7 @@ public class DateTimeService {
         return LocalDateTime.parse(str, formatter);
     }
 
-    public static DateTime convertLocalDateTimeToDateTime(LocalDateTime localDateTime){
+    public static DateTime convertLocalDateTimeToDateTimeFromSec(LocalDateTime localDateTime){
         StringBuilder sb = new StringBuilder();
         sb.append(localDateTime).append(".000+02:00");
         return new DateTime(sb.toString());
@@ -27,6 +27,13 @@ public class DateTimeService {
     public static String convertLocalDateTimeToTimeString(LocalDateTime startTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         return startTime.format(formatter);
+
+    }
+
+    public static DateTime convertLocalDateTimeToDateTimeFromMin(LocalDateTime localDateTime) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(localDateTime).append(":00.000+02:00");
+        return new DateTime(sb.toString());
 
     }
 }
