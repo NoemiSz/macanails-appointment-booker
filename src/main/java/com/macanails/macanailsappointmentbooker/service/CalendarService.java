@@ -85,16 +85,17 @@ public class CalendarService {
 
     public void updateEvent(CalendarEvent calendarEvent, int neededHours) throws IOException {
         Event event = calendarConnection.service.events().get("primary", calendarEvent.getId()).execute();
-//        addAttendees(event, calendarEvent.getCustomer().getEmail());
+        addAttendees(event, calendarEvent.getCustomer().getEmail());
         calendarConnection.service.events().update("primary", event.getId(), event).execute();
 
         modifyEndTime(event,calendarEvent, neededHours);
         addReminders(event);
         event.setDescription(calendarEvent.getDescription())
                 .setLocation("Szalon")
-               .setGuestsCanModify(false);
+               .setGuestsCanModify(false)
+                .setGuestsCanInviteOthers(false);
 
-        calendarConnection.service.events().update("primary", event.getId(), event).execute();
+        calendarConnection.service.events().update("primary", event.getId(), event).setSendNotifications(true).execute();
     }
 
     public void deleteEvent(CalendarEvent calendarEvent) throws IOException {
@@ -124,7 +125,7 @@ public class CalendarService {
     private void modifyEndTime(Event event, CalendarEvent calendarEvent, int neededHours) {
         calendarEvent.setEndTime(calendarEvent.getStartTime().plusHours(neededHours));
 
-        DateTime endDateTime = DateTimeService.convertLocalDateTimeToDateTime(calendarEvent.getEndTime());
+        DateTime endDateTime = DateTimeService.convertLocalDateTimeToDateTimeFromMin(calendarEvent.getEndTime());
         EventDateTime eventEndTime= new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("Europe/Budapest");
