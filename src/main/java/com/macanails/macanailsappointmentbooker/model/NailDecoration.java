@@ -1,7 +1,7 @@
 package com.macanails.macanailsappointmentbooker.model;
 
 public enum NailDecoration {
-    TRANSFERFÓLIA_VAGY_CUKORPOR("Transzferfólia vagy cukorpor", 0.084f),
+    TRANSZFERFÓLIA_VAGY_CUKORPOR("Transzferfólia vagy cukorpor", 0.084f),
     EFFEKT_POROK("Effekt porok", 0.17f),
     INDA_MINTA("Inda minta", 0.17f),
     FESTETT_3D_VIRÁGOK("Festett 3D virágok", 0.33f),

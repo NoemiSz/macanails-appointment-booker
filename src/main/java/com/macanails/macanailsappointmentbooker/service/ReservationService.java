@@ -81,7 +81,7 @@ public class ReservationService {
         }
         answer.put("status", "fail");
         answer.put("message", "Valaki megelőzött, kérlek válassz másik időpontot");
-        answer.put("slots", getFreeSlots(calendarEvent.getNail()));
+        answer.put("slots", getFreeSlotsMap(calendarEvent.getNail()));
         return answer;
     }
 
