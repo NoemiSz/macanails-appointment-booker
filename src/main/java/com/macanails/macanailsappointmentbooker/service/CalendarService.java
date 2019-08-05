@@ -88,12 +88,13 @@ public class CalendarService {
         addAttendees(event, calendarEvent.getCustomer().getEmail());
         calendarConnection.service.events().update("primary", event.getId(), event).execute();
 
-        modifyEndTime(event,calendarEvent, neededHours);
+        modifyEndTime(event, calendarEvent, neededHours);
         addReminders(event);
         event.setDescription(calendarEvent.getDescription())
                 .setLocation("Szalon")
-               .setGuestsCanModify(false)
-                .setGuestsCanInviteOthers(false);
+                .setGuestsCanModify(false)
+                .setGuestsCanInviteOthers(false)
+                .setSummary("Időpont a kedvenc körmösömhöz");
 
         calendarConnection.service.events().update("primary", event.getId(), event).setSendNotifications(true).execute();
     }
@@ -126,7 +127,7 @@ public class CalendarService {
         calendarEvent.setEndTime(calendarEvent.getStartTime().plusHours(neededHours));
 
         DateTime endDateTime = DateTimeService.convertLocalDateTimeToDateTimeFromMin(calendarEvent.getEndTime());
-        EventDateTime eventEndTime= new EventDateTime()
+        EventDateTime eventEndTime = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("Europe/Budapest");
         event.setEnd(eventEndTime);
