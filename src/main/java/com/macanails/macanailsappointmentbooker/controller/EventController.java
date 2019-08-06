@@ -1,7 +1,6 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
 import com.macanails.macanailsappointmentbooker.model.PersonalInfoFormWrapper;
-import com.macanails.macanailsappointmentbooker.model.Customer;
 import com.macanails.macanailsappointmentbooker.api.ReservationService;
 import com.macanails.macanailsappointmentbooker.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +14,6 @@ import java.util.Map;
 @CrossOrigin
 @Slf4j
 public class EventController {
-        @Autowired
-        Customer customer;
-
         @Autowired
         ReservationService reservationService;
         @Autowired
