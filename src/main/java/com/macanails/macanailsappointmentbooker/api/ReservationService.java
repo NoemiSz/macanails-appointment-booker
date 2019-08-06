@@ -1,8 +1,10 @@
-package com.macanails.macanailsappointmentbooker.service;
+package com.macanails.macanailsappointmentbooker.api;
 
 import com.google.api.client.util.DateTime;
 import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
 import com.macanails.macanailsappointmentbooker.model.Nail;
+import com.macanails.macanailsappointmentbooker.service.DateTimeService;
+import com.macanails.macanailsappointmentbooker.service.NailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

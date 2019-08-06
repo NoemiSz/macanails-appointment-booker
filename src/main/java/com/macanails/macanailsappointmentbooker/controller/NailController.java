@@ -1,9 +1,9 @@
 package com.macanails.macanailsappointmentbooker.controller;
 
 import com.macanails.macanailsappointmentbooker.model.*;
-import com.macanails.macanailsappointmentbooker.service.CalendarService;
+import com.macanails.macanailsappointmentbooker.api.CalendarService;
 import com.macanails.macanailsappointmentbooker.service.NailService;
-import com.macanails.macanailsappointmentbooker.service.ReservationService;
+import com.macanails.macanailsappointmentbooker.api.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

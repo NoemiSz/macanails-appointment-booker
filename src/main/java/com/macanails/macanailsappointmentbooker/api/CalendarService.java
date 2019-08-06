@@ -1,8 +1,9 @@
-package com.macanails.macanailsappointmentbooker.service;
+package com.macanails.macanailsappointmentbooker.api;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.*;
 import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
+import com.macanails.macanailsappointmentbooker.service.DateTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class CalendarService {
         List<CalendarEvent> items = new ArrayList<>();
 
         Events events = calendarConnection.service.events().list("primary")
-                .setMaxResults(80)
+                .setMaxResults(200)
                 .setTimeMin(min)
                 .setTimeMax(max)
                 .setOrderBy("startTime")
@@ -49,39 +50,6 @@ public class CalendarService {
     }
 
 
-//    public void addNewEvent() throws IOException {
-//
-//        Event event = new Event()
-//                .setSummary("Köröm")
-//                .setLocation("Szalon");
-////                .setDescription(calendarEvent.getDescription());
-//
-//        DateTime startDateTime = new DateTime("2019-05-30T19:00:00");
-//        EventDateTime start = new EventDateTime()
-//                .setDateTime(startDateTime)
-//                .setTimeZone("Europe/Budapest");
-//
-//        event.setStart(start);
-//
-//        DateTime endDateTime = new DateTime("2019-05-30T21:00:00");
-//        EventDateTime end = new EventDateTime()
-//                .setDateTime(endDateTime)
-//                .setTimeZone("Europe/Budapest");
-//
-//
-//        event.setEnd(end);
-//
-//
-//        addAttendees(event, "szajler.indira@gmail.com");
-//
-//
-//        addReminders(event);
-//
-//        String calendarId = "primary";
-//        event = calendarConnection.service.events().insert(calendarId, event).execute();
-//        System.out.printf("Event created: %s\n", event.getHtmlLink());
-//
-//    }
 
     public void updateEvent(CalendarEvent calendarEvent, int neededHours) throws IOException {
         Event event = calendarConnection.service.events().get("primary", calendarEvent.getId()).execute();
