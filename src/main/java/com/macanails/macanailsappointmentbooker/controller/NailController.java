@@ -25,9 +25,10 @@ public class NailController {
     @PostMapping(value = "/")
     public Map<String, List<CalendarEvent>> getFreeSlots(@RequestBody NailFormWrapper answers) throws IOException {
 
-        nail.setDecorEnum(answers.getDecorationUpperCase());
-        nail.setTypeEnum(answers.getNailStyleUpperCase());
+        nailService.setNailDetailes(answers);
         return reservationService.getFreeSlotsMap(nail);
     }
+
+
 
 }
