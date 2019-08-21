@@ -23,6 +23,8 @@ public class CalendarService {
     @Autowired
     ReservationService reservationService;
 
+    private String hostEmail = "macanailstest@gmail.com";
+
 
     public List<CalendarEvent> getFreeEvents(DateTime min, DateTime max) throws IOException {
         List<CalendarEvent> items = new ArrayList<>();
@@ -84,7 +86,7 @@ public class CalendarService {
 
     private void addAttendees(Event event, String email) {
         EventAttendee[] attendees = new EventAttendee[]{
-                new EventAttendee().setEmail("macanailstest@gmail.com"),
+                new EventAttendee().setEmail(hostEmail),
                 new EventAttendee().setEmail(email),
         };
         event.setAttendees(Arrays.asList(attendees));
