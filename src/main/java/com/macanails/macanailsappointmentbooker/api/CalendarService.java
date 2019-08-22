@@ -5,9 +5,14 @@ import com.google.api.services.calendar.model.*;
 import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
 import com.macanails.macanailsappointmentbooker.service.DateTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import com.google.api.services.calendar.Calendar;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,25 +22,20 @@ public class CalendarService {
     @Autowired
     CalendarConnection calendarConnection;
 
-    @Autowired
-    CalendarEvent calendarEvent;
-
-    @Autowired
-    ReservationService reservationService;
-
     private String hostEmail = "macanailstest@gmail.com";
 
 
     public List<CalendarEvent> getFreeEvents(DateTime min, DateTime max) throws IOException {
         List<CalendarEvent> items = new ArrayList<>();
 
-        Events events = calendarConnection.service.events().list("primary")
-                .setMaxResults(200)
-                .setTimeMin(min)
-                .setTimeMax(max)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
+        Events events = getEvents(DateTimeService.convertDateTimeToLocalDateTime(min), max);
+//        Events events = calendarConnection.service.events().list("primary")
+//                .setMaxResults(200)
+//                .setTimeMin(min)
+//                .setTimeMax(max)
+//                .setOrderBy("startTime")
+//                .setSingleEvents(true)
+//                .execute();
         for (Event event : events.getItems()) {
             if (event.getDescription() != null && event.getDescription().equals("free")) {
                 CalendarEvent calendarEvent = CalendarEvent.builder()
@@ -69,8 +69,8 @@ public class CalendarService {
         calendarConnection.service.events().update("primary", event.getId(), event).setSendNotifications(true).execute();
     }
 
-    public void deleteEvent(CalendarEvent calendarEvent) throws IOException {
-        calendarConnection.service.events().delete("primary", calendarEvent.getId()).execute();
+    public void deleteEvent(String id) throws IOException {
+        calendarConnection.service.events().delete("primary", id).execute();
     }
 
     private void addReminders(Event event) {
@@ -103,4 +103,52 @@ public class CalendarService {
         event.setEnd(eventEndTime);
 
     }
+
+    @Async("threadPoolTaskExecutor")
+    public void deleteAppintment() throws IOException {
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        DateTime threeMonthLater = DateTimeService.convertLocalDateTimeToDateTimeFromSec(now.plusMonths(3));
+
+        Events events = getEvents(now, threeMonthLater);
+        List<Event> eventsToDelete = getEventsToDelete(events);
+
+        try {
+
+            for (Event event : eventsToDelete) {
+                Event event2 = calendarConnection.service.events().get("primary", event.getId()).execute();
+                System.out.println(event2.getStart());
+
+                calendarConnection.service.events().delete("primary", event.getId()).execute();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private List<Event> getEventsToDelete(Events events) {
+        List<Event> eventsToDelete= new ArrayList<>();
+        for (Event event : events.getItems()) {
+            if(event.getAttendees()!=null){
+            System.out.println(event.getAttendees());
+            if (event.getAttendees().get(1).get("responseStatus").equals("declined")){
+                eventsToDelete.add(event);
+            } }
+            else {
+                System.out.println("noresponse");
+            }
+        }
+        return eventsToDelete;
+    }
+
+    private Events getEvents(LocalDateTime now, DateTime threeMonthLater) throws IOException {
+        return calendarConnection.service.events().list("primary")
+                    .setMaxResults(200)
+                    .setTimeMin(DateTimeService.convertLocalDateTimeToDateTimeFromSec(now))
+                    .setTimeMax(threeMonthLater)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
+    }
+
+
 }
