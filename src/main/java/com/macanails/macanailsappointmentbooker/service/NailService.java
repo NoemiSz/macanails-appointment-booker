@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class NailService {
-    @Autowired
-    Nail nail;
-    public void setNailDetailes(NailFormWrapper answers) {
+   // @Autowired
+    //Nail nail;
+    public Nail setNailDetailes(NailFormWrapper answers) {
+        Nail nail = new Nail();
         nail.setDecorEnum(answers.getDecorationUpperCase());
         nail.setTypeEnum(answers.getNailStyleUpperCase());
+        return nail;
     }
 
     public int calculateNeededTime(Nail nail){

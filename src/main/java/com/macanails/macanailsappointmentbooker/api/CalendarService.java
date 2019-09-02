@@ -5,13 +5,10 @@ import com.google.api.services.calendar.model.*;
 import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
 import com.macanails.macanailsappointmentbooker.service.DateTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.google.api.services.calendar.Calendar;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,15 +25,8 @@ public class CalendarService {
     public List<CalendarEvent> getFreeEvents(DateTime min, DateTime max) throws IOException {
         List<CalendarEvent> items = new ArrayList<>();
 
-        Events events = getEvents(DateTimeService.convertDateTimeToLocalDateTime(min), max);
-//        Events events = calendarConnection.service.events().list("primary")
-//                .setMaxResults(200)
-//                .setTimeMin(min)
-//                .setTimeMax(max)
-//                .setOrderBy("startTime")
-//                .setSingleEvents(true)
-//                .execute();
-        for (Event event : events.getItems()) {
+        Events events = getEvents(min, max);
+            for (Event event : events.getItems()) {
             if (event.getDescription() != null && event.getDescription().equals("free")) {
                 CalendarEvent calendarEvent = CalendarEvent.builder()
                         .startTime(DateTimeService.convertDateTimeToLocalDateTime(event.getStart().getDateTime()))
@@ -108,8 +98,9 @@ public class CalendarService {
     public void deleteAppintment() throws IOException {
         LocalDateTime now = LocalDateTime.now().withNano(0);
         DateTime threeMonthLater = DateTimeService.convertLocalDateTimeToDateTimeFromSec(now.plusMonths(3));
+        DateTime nowDateTime = DateTimeService.convertLocalDateTimeToDateTimeFromSec(now);
 
-        Events events = getEvents(now, threeMonthLater);
+        Events events = getEvents(nowDateTime, threeMonthLater);
         List<Event> eventsToDelete = getEventsToDelete(events);
 
         try {
@@ -140,10 +131,10 @@ public class CalendarService {
         return eventsToDelete;
     }
 
-    private Events getEvents(LocalDateTime now, DateTime threeMonthLater) throws IOException {
+    private Events getEvents(DateTime now, DateTime threeMonthLater) throws IOException {
         return calendarConnection.service.events().list("primary")
                     .setMaxResults(200)
-                    .setTimeMin(DateTimeService.convertLocalDateTimeToDateTimeFromSec(now))
+                    .setTimeMin(now)
                     .setTimeMax(threeMonthLater)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
