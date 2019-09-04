@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Component
 public class CalendarEvent {
     private String id;
     private LocalDateTime startTime;

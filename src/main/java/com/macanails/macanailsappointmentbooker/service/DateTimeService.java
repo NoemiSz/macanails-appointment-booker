@@ -2,9 +2,11 @@ package com.macanails.macanailsappointmentbooker.service;
 
 import com.google.api.client.util.DateTime;
 import com.macanails.macanailsappointmentbooker.model.CalendarEvent;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 public class DateTimeService {
     public static LocalDateTime convertDateTimeToLocalDateTime(DateTime dateTime){

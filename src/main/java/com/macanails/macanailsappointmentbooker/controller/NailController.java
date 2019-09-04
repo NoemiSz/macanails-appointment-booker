@@ -19,13 +19,13 @@ public class NailController {
     ReservationService reservationService;
     @Autowired
     CalendarService calendarService;
-    @Autowired
-    Nail nail;
+    //@Autowired
+    //Nail nail;
 
     @PostMapping(value = "/")
     public Map<String, List<CalendarEvent>> getFreeSlots(@RequestBody NailFormWrapper answers) throws IOException {
 
-        nailService.setNailDetailes(answers);
+        Nail nail = nailService.setNailDetailes(answers);
         return reservationService.getFreeSlotsMap(nail);
     }
 

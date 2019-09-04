@@ -17,8 +17,6 @@ import java.util.Map;
 
 @Service
 public class ReservationService {
-    @Autowired
-    CalendarEvent calendarEvent;
 
     @Autowired
     CalendarService calendarService;
@@ -75,7 +73,7 @@ public class ReservationService {
         if (freeSlots.size() == calendarEvent.getNeededTime()) {
             calendarService.updateEvent(calendarEvent, calendarEvent.getNeededTime());
             for (int i = 1; i < calendarEvent.getNeededTime(); i++) {
-                calendarService.deleteEvent(freeSlots.get(i));
+                calendarService.deleteEvent(freeSlots.get(i).getId());
             }
             answer.put("status", "success");
             answer.put("message", "Időpont sikeresen mentve");
