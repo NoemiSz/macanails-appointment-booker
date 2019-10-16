@@ -36,5 +36,6 @@ dependencies {
         exclude group: 'org.mortbay.jetty', module: 'servlet-api'
     }
     compile 'com.google.apis:google-api-services-calendar:v3-rev305-1.23.0'
-    
+    compile 'io.github.cdimascio:java-dotenv:5.1.3'
+
 }

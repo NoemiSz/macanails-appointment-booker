@@ -19,21 +19,37 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import io.github.cdimascio.dotenv.Dotenv;
 
 @Component
 public class CalendarConnection {
     private static final String APPLICATION_NAME = "Macanails appointment booker";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final List<String> REDIRECT_URIS = Arrays.asList("urn:ietf:wg:oauth:2.0:oob","http://localhost");
+
 
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+
+    private static GoogleClientSecrets.Details getClientSecretsDetails() {
+        Dotenv dotenv = Dotenv.load();
+
+        GoogleClientSecrets.Details details = new GoogleClientSecrets.Details()
+                .setAuthUri(dotenv.get("AUTH_URI"))
+                .setClientId(dotenv.get("CLIENT_ID"))
+                .setClientSecret(dotenv.get("CLIENT_SECRET"))
+                .setRedirectUris(REDIRECT_URIS)
+                .setTokenUri(dotenv.get("TOKEN_URI"));
+        return details;
+
+    }
 
     public CalendarConnection() throws GeneralSecurityException, IOException {
     }
@@ -45,12 +61,12 @@ public class CalendarConnection {
      * @throws IOException If the credentials.json file cannot be found.
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        // Load client secrets.
-        InputStream in = CalendarConnection.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+
+
+
+
+        GoogleClientSecrets clientSecrets = new GoogleClientSecrets();
+        clientSecrets.setInstalled(getClientSecretsDetails());
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
